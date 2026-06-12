@@ -1,5 +1,3 @@
-
-```html
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -29,16 +27,75 @@
             color: var(--text-main);
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
             line-height: 1.6;
-            padding: 40px 20px;
             overflow-x: hidden;
+            position: relative;
         }
 
+        /* --- FONDO ANIMADO (TECH GRID) --- */
+        .bg-animation {
+            position: fixed;
+            top: 0; left: 0; width: 100vw; height: 100vh;
+            z-index: -1;
+            background-color: var(--bg-color);
+            background-image: 
+                linear-gradient(rgba(88, 166, 255, 0.04) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(88, 166, 255, 0.04) 1px, transparent 1px);
+            background-size: 30px 30px;
+            animation: panGrid 20s linear infinite;
+        }
+
+        @keyframes panGrid {
+            0% { background-position: 0 0; }
+            100% { background-position: 30px 30px; }
+        }
+
+        /* --- BARRA DE TERMINAL (vsVamp) --- */
+        .terminal-bar {
+            background-color: #0d1117;
+            border-bottom: 1px solid var(--border-color);
+            padding: 12px 20px;
+            display: flex;
+            align-items: center;
+            font-family: "Courier New", Courier, monospace;
+            font-size: 0.9rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+        }
+
+        .term-dots {
+            display: flex;
+            gap: 6px;
+            margin-right: 20px;
+        }
+
+        .term-dots .dot {
+            width: 12px; height: 12px;
+            border-radius: 50%;
+        }
+
+        .dot.close { background-color: #ff5f56; }
+        .dot.min { background-color: #ffbd2e; }
+        .dot.max { background-color: #27c93f; }
+
+        .term-user { color: var(--accent-green); font-weight: bold; }
+        .term-path { color: var(--accent); font-weight: bold; }
+        .blinking-cursor {
+            font-weight: bold;
+            animation: blink 1s step-end infinite;
+        }
+
+        @keyframes blink { 50% { opacity: 0; } }
+
+        /* Contenedor Principal */
         .container {
             max-width: 750px;
             margin: 0 auto;
+            padding: 40px 20px;
         }
 
-        /* --- SISTEMA DE ANIMACIONES (FADE-IN UP) --- */
+        /* Sistema de animaciones (Fade-In Up) */
         .animate-on-scroll {
             opacity: 0;
             transform: translateY(25px);
@@ -60,7 +117,7 @@
         }
 
         .lang-btn {
-            background-color: transparent;
+            background-color: var(--card-bg);
             color: var(--text-muted);
             border: 1px solid var(--border-color);
             padding: 4px 12px;
@@ -92,50 +149,13 @@
         body.english-mode span.lang-en { display: inline; }
         body.english-mode div.lang-en { display: block; }
 
-        /* Encabezado */
-        header {
-            margin-bottom: 40px;
-            border-bottom: 1px solid var(--border-color);
-            padding-bottom: 20px;
-        }
-
-        h1 {
-            font-size: 2.2rem;
-            color: #f0f6fc;
-            font-weight: 700;
-            letter-spacing: -0.5px;
-        }
-
-        .subtitle {
-            color: var(--accent);
-            font-size: 1.1rem;
-            font-weight: 500;
-            margin-top: 5px;
-        }
-
+        header { margin-bottom: 40px; border-bottom: 1px solid var(--border-color); padding-bottom: 20px; }
+        h1 { font-size: 2.2rem; color: #f0f6fc; font-weight: 700; letter-spacing: -0.5px; }
+        .subtitle { color: var(--accent); font-size: 1.1rem; font-weight: 500; margin-top: 5px; }
         section { margin-bottom: 40px; }
-
-        h2 {
-            font-size: 1.4rem;
-            color: #f0f6fc;
-            margin-bottom: 15px;
-            display: flex;
-            align-items: center;
-        }
-
-        h2::after {
-            content: "";
-            flex: 1;
-            margin-left: 15px;
-            height: 1px;
-            background-color: var(--border-color);
-        }
-
-        p {
-            color: var(--text-main);
-            margin-bottom: 15px;
-            font-size: 1.05rem;
-        }
+        h2 { font-size: 1.4rem; color: #f0f6fc; margin-bottom: 15px; display: flex; align-items: center; }
+        h2::after { content: ""; flex: 1; margin-left: 15px; height: 1px; background-color: var(--border-color); }
+        p { color: var(--text-main); margin-bottom: 15px; font-size: 1.05rem; }
 
         /* Tarjetas */
         .card {
@@ -145,70 +165,39 @@
             padding: 20px;
             margin-bottom: 20px;
             transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+            backdrop-filter: blur(5px); /* Efecto cristal para que la grilla animada se vea mejor */
         }
 
         .card:hover {
             border-color: var(--accent);
             transform: translateY(-4px);
-            box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+            box-shadow: 0 8px 24px rgba(0,0,0,0.4);
         }
 
-        .card-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            margin-bottom: 10px;
-        }
+        .card-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 10px; }
+        .card-title { font-size: 1.15rem; color: #f0f6fc; font-weight: 600; }
+        .tag { background-color: rgba(88, 166, 255, 0.1); color: var(--accent); padding: 2px 8px; border-radius: 12px; font-size: 0.75rem; font-weight: 600; }
+        .tag-live { background-color: rgba(46, 164, 79, 0.1); color: var(--accent-green); }
+        .card-tech { margin-top: 15px; font-size: 0.85rem; color: var(--text-muted); font-family: monospace; }
 
-        .card-title {
-            font-size: 1.15rem;
-            color: #f0f6fc;
-            font-weight: 600;
-        }
-
-        .tag {
-            background-color: rgba(88, 166, 255, 0.1);
-            color: var(--accent);
-            padding: 2px 8px;
-            border-radius: 12px;
-            font-size: 0.75rem;
-            font-weight: 600;
-        }
-
-        .tag-live {
-            background-color: rgba(46, 164, 79, 0.1);
-            color: var(--accent-green);
-        }
-
-        .card-tech {
-            margin-top: 15px;
-            font-size: 0.85rem;
-            color: var(--text-muted);
-            font-family: monospace;
-        }
-
-        /* Grid */
-        .skills-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
-            gap: 10px;
-            margin-top: 15px;
-        }
-
+        /* Grid de Skills y Certificaciones */
+        .skills-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 10px; margin-top: 15px; }
         .skill-item {
             background-color: var(--card-bg);
             border: 1px solid var(--border-color);
-            padding: 8px 12px;
+            padding: 10px 12px;
             border-radius: 6px;
             font-size: 0.9rem;
             text-align: center;
             transition: transform 0.2s ease, border-color 0.2s ease;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
         }
 
-        .skill-item:hover {
-            transform: scale(1.05);
-            border-color: var(--text-main);
-        }
+        .skill-item:hover { transform: scale(1.05); border-color: var(--text-main); }
+        .cisco-logo { width: 45px; margin-bottom: 8px; filter: brightness(0) invert(1); opacity: 0.8; }
 
         a { color: var(--accent); text-decoration: none; }
         a:hover { text-decoration: underline; }
@@ -217,6 +206,19 @@
     </style>
 </head>
 <body>
+
+    <div class="bg-animation"></div>
+
+    <div class="terminal-bar">
+        <div class="term-dots">
+            <span class="dot close"></span>
+            <span class="dot min"></span>
+            <span class="dot max"></span>
+        </div>
+        <div>
+            <span class="term-user">vsVamp@local</span>:<span class="term-path">~/portfolio</span>$ ./init_agent.sh<span class="blinking-cursor">_</span>
+        </div>
+    </div>
 
     <div class="container">
 
@@ -329,11 +331,13 @@
             
             <div class="skills-grid">
                 <a href="https://www.credly.com/badges/4c189fac-fe83-4892-9280-c0f4a4699a70/public_url" target="_blank" class="skill-item" style="text-decoration: none;">
-                    🛡️ Cisco: [Hardware]
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/0/08/Cisco_logo_blue_2016.svg" alt="Cisco Logo" class="cisco-logo">
+                    <span style="font-weight: 600; font-size: 0.8rem;">[Nombre Insignia 1]</span>
                 </a>
                 
                 <a href="https://www.credly.com/badges/c102394d-df5f-40dc-af49-3e114019b33b/public_url" target="_blank" class="skill-item" style="text-decoration: none;">
-                    🛡️ Cisco: [IT ESSENTIALS]
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/0/08/Cisco_logo_blue_2016.svg" alt="Cisco Logo" class="cisco-logo">
+                    <span style="font-weight: 600; font-size: 0.8rem;">[Nombre Insignia 2]</span>
                 </a>
             </div>
         </section>
@@ -383,5 +387,3 @@
     </script>
 </body>
 </html>
-
-```
