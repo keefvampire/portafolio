@@ -165,7 +165,7 @@
             padding: 20px;
             margin-bottom: 20px;
             transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
-            backdrop-filter: blur(5px); /* Efecto cristal para que la grilla animada se vea mejor */
+            backdrop-filter: blur(5px);
         }
 
         .card:hover {
@@ -180,7 +180,7 @@
         .tag-live { background-color: rgba(46, 164, 79, 0.1); color: var(--accent-green); }
         .card-tech { margin-top: 15px; font-size: 0.85rem; color: var(--text-muted); font-family: monospace; }
 
-        /* Grid de Skills y Certificaciones */
+        /* Grid de Skills */
         .skills-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 10px; margin-top: 15px; }
         .skill-item {
             background-color: var(--card-bg);
@@ -197,7 +197,6 @@
         }
 
         .skill-item:hover { transform: scale(1.05); border-color: var(--text-main); }
-        .cisco-logo { width: 45px; margin-bottom: 8px; filter: brightness(0) invert(1); opacity: 0.8; }
 
         a { color: var(--accent); text-decoration: none; }
         a:hover { text-decoration: underline; }
@@ -207,8 +206,10 @@
 </head>
 <body>
 
+    <!-- Fondo Animado -->
     <div class="bg-animation"></div>
 
+    <!-- Terminal Superior -->
     <div class="terminal-bar">
         <div class="term-dots">
             <span class="dot close"></span>
@@ -329,21 +330,21 @@
             <h2 class="lang-es">Certificaciones & Insignias</h2>
             <h2 class="lang-en">Certifications & Badges</h2>
             
-            <div class="skills-grid">
-                <a href="https://www.credly.com/badges/4c189fac-fe83-4892-9280-c0f4a4699a70/public_url" target="_blank" class="skill-item" style="text-decoration: none;">
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/0/08/Cisco_logo_blue_2016.svg" alt="Cisco Logo" class="cisco-logo">
-                    <span style="font-weight: 600; font-size: 0.8rem;">[Nombre Insignia 1]</span>
-                </a>
+            <div style="display: flex; gap: 20px; flex-wrap: wrap; margin-top: 20px;">
+                <!-- Insignia 1 (Cisco) -->
+                <div data-iframe-width="150" data-iframe-height="270" data-share-badge-id="4c189fac-fe83-4892-9280-c0f4a4699a70" data-share-badge-host="https://www.credly.com"></div>
                 
-                <a href="https://www.credly.com/badges/c102394d-df5f-40dc-af49-3e114019b33b/public_url" target="_blank" class="skill-item" style="text-decoration: none;">
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/0/08/Cisco_logo_blue_2016.svg" alt="Cisco Logo" class="cisco-logo">
-                    <span style="font-weight: 600; font-size: 0.8rem;">[Nombre Insignia 2]</span>
-                </a>
+                <!-- Insignia 2 (Cisco) -->
+                <div data-iframe-width="150" data-iframe-height="270" data-share-badge-id="c102394d-df5f-40dc-af49-3e114019b33b" data-share-badge-host="https://www.credly.com"></div>
             </div>
         </section>
 
     </div>
 
+    <!-- Script de Credly para cargar las insignias dinámicas -->
+    <script type="text/javascript" async src="//cdn.credly.com/assets/utilities/embed.js"></script>
+
+    <!-- Script de lógica de cambio de idioma y animaciones -->
     <script>
         function setLanguage(lang) {
             const body = document.body;
