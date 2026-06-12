@@ -35,22 +35,37 @@
             margin: 0 auto;
         }
 
-        /* Botón de Idioma */
-        .lang-btn {
-            background-color: var(--card-bg);
-            color: var(--text-main);
-            border: 1px solid var(--border-color);
-            padding: 6px 12px;
-            border-radius: 6px;
-            cursor: pointer;
-            font-size: 0.85rem;
-            font-weight: 600;
-            transition: all 0.2s ease;
+        /* Contenedor del Selector de Idioma (Minimalista y a la derecha) */
+        .lang-switcher {
+            display: flex;
+            justify-content: flex-end;
+            gap: 8px;
             margin-bottom: 20px;
-            display: inline-block;
+        }
+
+        .lang-btn {
+            background-color: transparent;
+            color: var(--text-muted);
+            border: 1px solid var(--border-color);
+            padding: 4px 12px;
+            border-radius: 20px; /* Estilo píldora */
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 6px;
         }
 
         .lang-btn:hover {
+            border-color: var(--text-main);
+            color: var(--text-main);
+        }
+
+        /* Estado Activo del Botón */
+        .lang-btn.active {
+            background-color: rgba(88, 166, 255, 0.1);
             border-color: var(--accent);
             color: var(--accent);
         }
@@ -60,6 +75,7 @@
         body.english-mode .lang-es { display: none; }
         body.english-mode .lang-en { display: block; }
         body.english-mode span.lang-en { display: inline; }
+        body.english-mode div.lang-en { display: block; }
 
         /* Encabezado */
         header {
@@ -182,14 +198,15 @@
 
     <div class="container">
 
-        <!-- Botón Toggle Idioma -->
-        <button class="lang-btn" id="lang-toggle" onclick="toggleLanguage()">🇺🇸 Switch to English</button>
+        <div class="lang-switcher">
+            <button class="lang-btn active" id="btn-es" onclick="setLanguage('es')">🇪🇸 ES</button>
+            <button class="lang-btn" id="btn-en" onclick="setLanguage('en')">🇺🇸 EN</button>
+        </div>
 
         <header>
             <h1>Julián Miranda</h1>
-            <!-- Subtítulos bilingües -->
-            <div class="subtitle lang-es">Estudiante de Ingeniería Civil Informática | Desarrollador de Sistemas & IA</div>
-            <div class="subtitle lang-en">Civil Informatics Engineering Student | Systems & AI Developer</div>
+            <div class="subtitle lang-es">Estudiante de Ingeniería Civil Informática (USS) | Desarrollador de Sistemas & IA</div>
+            <div class="subtitle lang-en">Civil Informatics Engineering Student (USS) | Systems & AI Developer</div>
             
             <div class="contact-links">
                 <a href="mailto:sialoalo2@gmail.com">📩 sialoalo2@gmail.com</a>
@@ -286,21 +303,21 @@
 
     </div>
 
-    <!-- Script de lógica de cambio de idioma -->
     <script>
-        function toggleLanguage() {
+        function setLanguage(lang) {
             const body = document.body;
-            const btn = document.getElementById('lang-toggle');
-            
-            // Alternar clase 'english-mode' en el body
-            body.classList.toggle('english-mode');
-            
-            // Cambiar texto del botón y título de la pestaña según el modo
-            if (body.classList.contains('english-mode')) {
-                btn.innerHTML = '🇪🇸 Cambiar a Español';
+            const btnEs = document.getElementById('btn-es');
+            const btnEn = document.getElementById('btn-en');
+
+            if (lang === 'en') {
+                body.classList.add('english-mode');
+                btnEn.classList.add('active');
+                btnEs.classList.remove('active');
                 document.title = "Julián Miranda | Engineering & AI Portfolio";
             } else {
-                btn.innerHTML = '🇺🇸 Switch to English';
+                body.classList.remove('english-mode');
+                btnEs.classList.add('active');
+                btnEn.classList.remove('active');
                 document.title = "Julián Miranda | Portafolio Ingeniería & IA";
             }
         }
