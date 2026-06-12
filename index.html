@@ -28,6 +28,7 @@
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
             line-height: 1.6;
             padding: 40px 20px;
+            overflow-x: hidden; /* Evita scroll horizontal con las animaciones */
         }
 
         .container {
@@ -35,7 +36,21 @@
             margin: 0 auto;
         }
 
-        /* Contenedor del Selector de Idioma (Minimalista y a la derecha) */
+        /* --- SISTEMA DE ANIMACIONES (FADE-IN UP) --- */
+        .animate-on-scroll {
+            opacity: 0;
+            transform: translateY(25px);
+            transition: opacity 0.7s ease-out, transform 0.7s ease-out;
+            will-change: opacity, transform; /* Optimización de rendimiento */
+        }
+
+        .animate-on-scroll.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        /* ------------------------------------------- */
+
+        /* Contenedor del Selector de Idioma */
         .lang-switcher {
             display: flex;
             justify-content: flex-end;
@@ -48,7 +63,7 @@
             color: var(--text-muted);
             border: 1px solid var(--border-color);
             padding: 4px 12px;
-            border-radius: 20px; /* Estilo píldora */
+            border-radius: 20px; 
             cursor: pointer;
             font-size: 0.9rem;
             font-weight: 500;
@@ -63,7 +78,6 @@
             color: var(--text-main);
         }
 
-        /* Estado Activo del Botón */
         .lang-btn.active {
             background-color: rgba(88, 166, 255, 0.1);
             border-color: var(--accent);
@@ -129,12 +143,13 @@
             border-radius: 6px;
             padding: 20px;
             margin-bottom: 20px;
-            transition: transform 0.2s, border-color 0.2s;
+            transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
         }
 
         .card:hover {
             border-color: var(--accent);
-            transform: translateY(-2px);
+            transform: translateY(-4px); /* Animación extra al pasar el mouse */
+            box-shadow: 0 8px 24px rgba(0,0,0,0.2);
         }
 
         .card-header {
@@ -186,6 +201,12 @@
             border-radius: 6px;
             font-size: 0.9rem;
             text-align: center;
+            transition: transform 0.2s ease, border-color 0.2s ease;
+        }
+
+        .skill-item:hover {
+            transform: scale(1.05); /* Efecto de latido al pasar el mouse */
+            border-color: var(--text-main);
         }
 
         a { color: var(--accent); text-decoration: none; }
@@ -203,7 +224,7 @@
             <button class="lang-btn" id="btn-en" onclick="setLanguage('en')">🇺🇸 EN</button>
         </div>
 
-        <header>
+        <header class="animate-on-scroll">
             <h1>Julián Miranda</h1>
             <div class="subtitle lang-es">Estudiante de Ingeniería Civil Informática (USS) | Desarrollador de Sistemas & IA</div>
             <div class="subtitle lang-en">Civil Informatics Engineering Student (USS) | Systems & AI Developer</div>
@@ -214,7 +235,7 @@
             </div>
         </header>
 
-        <section id="about">
+        <section id="about" class="animate-on-scroll">
             <h2 class="lang-es">Sobre Mí</h2>
             <h2 class="lang-en">About Me</h2>
             <p class="lang-es">
@@ -225,7 +246,7 @@
             </p>
         </section>
 
-        <section id="projects">
+        <section id="projects" class="animate-on-scroll">
             <h2 class="lang-es">Proyectos de IA & Infraestructura</h2>
             <h2 class="lang-en">AI & Infrastructure Projects</h2>
 
@@ -262,7 +283,7 @@
             </div>
         </section>
 
-        <section id="experience">
+        <section id="experience" class="animate-on-scroll">
             <h2 class="lang-es">Experiencia Destacada</h2>
             <h2 class="lang-en">Professional Experience</h2>
 
@@ -284,7 +305,7 @@
             </div>
         </section>
 
-        <section id="skills">
+        <section id="skills" class="animate-on-scroll">
             <h2 class="lang-es">Skills Técnicas</h2>
             <h2 class="lang-en">Technical Skills</h2>
             <div class="skills-grid">
@@ -301,9 +322,28 @@
             </div>
         </section>
 
+        <!-- Certificaciones arregladas y en su lugar correcto -->
+        <section id="certifications" class="animate-on-scroll">
+            <h2 class="lang-es">Certificaciones & Insignias</h2>
+            <h2 class="lang-en">Certifications & Badges</h2>
+            
+            <div class="skills-grid">
+                <!-- Reemplaza el # con el link real de tu insignia de Cisco (Credly u oficial) -->
+                <a href="#" target="_blank" class="skill-item" style="text-decoration: none;">
+                    🛡️ Cisco: [Nombre de la Insignia 1]
+                </a>
+                
+                <a href="#" target="_blank" class="skill-item" style="text-decoration: none;">
+                    🛡️ Cisco: [Nombre de la Insignia 2]
+                </a>
+            </div>
+        </section>
+
     </div>
 
+    <!-- Script de lógica de cambio de idioma y animaciones -->
     <script>
+        // Lógica del cambio de idioma
         function setLanguage(lang) {
             const body = document.body;
             const btnEs = document.getElementById('btn-es');
@@ -321,6 +361,31 @@
                 document.title = "Julián Miranda | Portafolio Ingeniería & IA";
             }
         }
+
+        // Lógica del Intersection Observer para las animaciones al hacer scroll
+        document.addEventListener("DOMContentLoaded", function() {
+            const observerOptions = {
+                root: null,
+                rootMargin: '0px',
+                threshold: 0.15 // El elemento aparece cuando el 15% es visible en pantalla
+            };
+
+            const observer = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                        // Dejamos de observar el elemento una vez que ya apareció
+                        observer.unobserve(entry.target); 
+                    }
+                });
+            }, observerOptions);
+
+            // Seleccionamos todos los elementos con la clase animate-on-scroll
+            const animatedElements = document.querySelectorAll('.animate-on-scroll');
+            animatedElements.forEach(el => {
+                observer.observe(el);
+            });
+        });
     </script>
 </body>
 </html>
