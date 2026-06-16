@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Julián Miranda | Portafolio Ingeniería & IA</title>
+    <title>Julián Miranda | Arquitectura de Sistemas e IA</title>
     <style>
         :root {
             --bg-color: #0d1117;
@@ -14,254 +14,274 @@
             --accent-green: #2ea44f; 
             --border-color: #30363d;
         }
+
         * { box-sizing: border-box; margin: 0; padding: 0; }
-        body { background-color: var(--bg-color); color: var(--text-main); font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif; line-height: 1.6; overflow-x: hidden; }
-        .bg-animation { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: -1; background-color: var(--bg-color); background-image: linear-gradient(rgba(88, 166, 255, 0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(88, 166, 255, 0.04) 1px, transparent 1px); background-size: 30px 30px; animation: panGrid 20s linear infinite; }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+            line-height: 1.6;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Fondo Animado Tech */
+        .bg-animation {
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+            z-index: -1; background-color: var(--bg-color);
+            background-image: 
+                linear-gradient(rgba(88, 166, 255, 0.04) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(88, 166, 255, 0.04) 1px, transparent 1px);
+            background-size: 30px 30px; animation: panGrid 20s linear infinite;
+        }
         @keyframes panGrid { 0% { background-position: 0 0; } 100% { background-position: 30px 30px; } }
-        .terminal-bar { background-color: #0d1117; border-bottom: 1px solid var(--border-color); padding: 12px 20px; display: flex; align-items: center; font-family: "Courier New", monospace; font-size: 0.9rem; position: sticky; top: 0; z-index: 100; box-shadow: 0 4px 15px rgba(0,0,0,0.5); }
+
+        /* Terminal Superior */
+        .terminal-bar {
+            background-color: #0d1117; border-bottom: 1px solid var(--border-color);
+            padding: 12px 20px; display: flex; align-items: center;
+            font-family: "Courier New", Courier, monospace; font-size: 0.9rem;
+            position: sticky; top: 0; z-index: 100; box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+        }
         .term-dots { display: flex; gap: 6px; margin-right: 20px; }
         .term-dots .dot { width: 12px; height: 12px; border-radius: 50%; }
-        .dot.close { background-color: #ff5f56; }
-        .dot.min { background-color: #ffbd2e; }
-        .dot.max { background-color: #27c93f; }
+        .dot.close { background-color: #ff5f56; } .dot.min { background-color: #ffbd2e; } .dot.max { background-color: #27c93f; }
         .term-user { color: var(--accent-green); font-weight: bold; }
         .term-path { color: var(--accent); font-weight: bold; }
-        .blinking-cursor { animation: blink 1s step-end infinite; }
+        .blinking-cursor { font-weight: bold; animation: blink 1s step-end infinite; }
         @keyframes blink { 50% { opacity: 0; } }
-        .container { max-width: 750px; margin: 0 auto; padding: 40px 20px; }
-        .animate-on-scroll { opacity: 0; transform: translateY(25px); transition: opacity 0.7s ease-out, transform 0.7s ease-out; }
+
+        /* Layout Principal */
+        .container { max-width: 800px; margin: 0 auto; padding: 40px 20px; }
+        
+        .animate-on-scroll {
+            opacity: 0; transform: translateY(25px);
+            transition: opacity 0.7s ease-out, transform 0.7s ease-out; will-change: opacity, transform;
+        }
         .animate-on-scroll.visible { opacity: 1; transform: translateY(0); }
-        .lang-switcher { display: flex; justify-content: flex-end; gap: 8px; margin-bottom: 20px; }
-        .lang-btn { background-color: var(--card-bg); color: var(--text-muted); border: 1px solid var(--border-color); padding: 4px 12px; border-radius: 20px; cursor: pointer; font-size: 0.9rem; font-weight: 500; transition: all 0.2s ease; }
+
+        /* Contenedor del Selector de Idioma */
+        .lang-switcher {
+            display: flex; justify-content: flex-end; gap: 8px; margin-bottom: 20px;
+        }
+        .lang-btn {
+            background-color: var(--card-bg); color: var(--text-muted);
+            border: 1px solid var(--border-color); padding: 4px 12px;
+            border-radius: 20px; cursor: pointer; font-size: 0.9rem; font-weight: 500;
+            transition: all 0.2s ease; display: flex; align-items: center; gap: 6px;
+        }
         .lang-btn:hover { border-color: var(--text-main); color: var(--text-main); }
         .lang-btn.active { background-color: rgba(88, 166, 255, 0.1); border-color: var(--accent); color: var(--accent); }
+
+        /* Sistema de toggle de idiomas */
         .lang-en { display: none; }
         body.english-mode .lang-es { display: none; }
         body.english-mode .lang-en { display: block; }
-        header { margin-bottom: 40px; border-bottom: 1px solid var(--border-color); padding-bottom: 20px; padding-top: 20px; text-align: center; }
-        h1 { font-size: 2.8rem; color: #f0f6fc; font-weight: 700; background: linear-gradient(135deg, var(--accent), var(--accent-green)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; margin-bottom: 15px; }
-        .subtitle { color: var(--accent); font-size: 1.1rem; font-weight: 500; margin-top: 5px; }
-        section { margin-bottom: 40px; }
-        h2 { font-size: 1.4rem; color: #f0f6fc; margin-bottom: 15px; display: flex; align-items: center; }
+        body.english-mode span.lang-en { display: inline; }
+
+        header { margin-bottom: 40px; border-bottom: 1px solid var(--border-color); padding-bottom: 20px; }
+        h1 { font-size: 2.5rem; color: #f0f6fc; font-weight: 700; letter-spacing: -0.5px; }
+        .subtitle { color: var(--accent); font-size: 1.15rem; font-weight: 500; margin-top: 5px; }
+        
+        section { margin-bottom: 50px; }
+        h2 { font-size: 1.5rem; color: #f0f6fc; margin-bottom: 20px; display: flex; align-items: center; }
         h2::after { content: ""; flex: 1; margin-left: 15px; height: 1px; background-color: var(--border-color); }
         p { color: var(--text-main); margin-bottom: 15px; font-size: 1.05rem; }
-        .card { background-color: var(--card-bg); border: 1px solid var(--border-color); border-left: 3px solid var(--accent); border-radius: 6px; padding: 20px; margin-bottom: 20px; transition: all 0.3s ease; }
-        .card:hover { border-color: var(--accent); border-left-color: var(--accent-green); transform: translateY(-4px); box-shadow: 0 8px 24px rgba(88, 166, 255, 0.15); }
-        .card-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 10px; flex-wrap: wrap; gap: 10px; }
-        .card-title { font-size: 1.15rem; color: #f0f6fc; font-weight: 600; }
-        .tag { background-color: rgba(88, 166, 255, 0.1); color: var(--accent); padding: 2px 8px; border-radius: 12px; font-size: 0.75rem; font-weight: 600; }
+
+        /* Tarjetas de Proyectos/Experiencia */
+        .card {
+            background-color: var(--card-bg); border: 1px solid var(--border-color);
+            border-radius: 8px; padding: 25px; margin-bottom: 20px;
+            transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+            backdrop-filter: blur(5px);
+        }
+        .card:hover { border-color: var(--accent); transform: translateY(-4px); box-shadow: 0 8px 24px rgba(0,0,0,0.4); }
+        .card-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 15px; }
+        .card-title { font-size: 1.25rem; color: #f0f6fc; font-weight: 600; }
+        .tag { background-color: rgba(88, 166, 255, 0.1); color: var(--accent); padding: 4px 10px; border-radius: 12px; font-size: 0.8rem; font-weight: 600; }
         .tag-live { background-color: rgba(46, 164, 79, 0.1); color: var(--accent-green); }
-        .card-tech { margin-top: 15px; font-size: 0.85rem; color: var(--text-muted); font-family: monospace; }
-        .skills-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 10px; margin-top: 15px; }
-        .skill-item { background-color: var(--card-bg); border: 1px solid var(--border-color); padding: 10px 12px; border-radius: 6px; font-size: 0.9rem; text-align: center; transition: all 0.2s ease; }
+        .card-tech { margin-top: 15px; font-size: 0.9rem; color: var(--accent); font-family: monospace; font-weight: bold;}
+
+        /* Grillas */
+        .skills-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 12px; margin-top: 15px; }
+        .skill-item {
+            background-color: var(--card-bg); border: 1px solid var(--border-color);
+            padding: 10px 12px; border-radius: 6px; font-size: 0.95rem; text-align: center;
+            transition: transform 0.2s ease, border-color 0.2s ease;
+        }
         .skill-item:hover { transform: scale(1.05); border-color: var(--text-main); }
+
         a { color: var(--accent); text-decoration: none; }
         a:hover { text-decoration: underline; }
-        .contact-links { display: flex; gap: 20px; margin-top: 15px; flex-wrap: wrap; }
-        .contact-links a { font-weight: 500; }
-        .author-badge { display: inline-block; background-color: rgba(88, 166, 255, 0.1); border-left: 2px solid var(--accent); padding: 2px 8px; border-radius: 4px; font-size: 0.85rem; color: var(--accent); font-weight: 500; margin-bottom: 10px; }
-        footer { background-color: var(--card-bg); border-top: 1px solid var(--border-color); padding: 30px 20px; margin-top: 60px; text-align: center; font-size: 0.9rem; color: var(--text-muted); }
+        .contact-links { display: flex; gap: 20px; margin-top: 15px; }
+        .contact-links a { display: flex; align-items: center; gap: 5px; font-weight: 500; font-size: 1.1rem; }
     </style>
 </head>
 <body>
+
     <div class="bg-animation"></div>
+
     <div class="terminal-bar">
-        <div class="term-dots">
-            <span class="dot close"></span>
-            <span class="dot min"></span>
-            <span class="dot max"></span>
-        </div>
-        <div>
-            <span class="term-user">vsVamp@local</span>:<span class="term-path">~/portfolio</span>$ ./init_agent.sh<span class="blinking-cursor">_</span>
-        </div>
+        <div class="term-dots"><span class="dot close"></span><span class="dot min"></span><span class="dot max"></span></div>
+        <div><span class="term-user">vsVamp@local</span>:<span class="term-path">~/portfolio</span>$ ./deploy_profile.sh<span class="blinking-cursor">_</span></div>
     </div>
+
     <div class="container">
+
+        <!-- Selector de Idioma -->
         <div class="lang-switcher">
-            <button class="lang-btn active" id="btn-es" onclick="setLanguage('es')">ES</button>
-            <button class="lang-btn" id="btn-en" onclick="setLanguage('en')">EN</button>
+            <button class="lang-btn active" id="btn-es" onclick="setLanguage('es')">🇪🇸 ES</button>
+            <button class="lang-btn" id="btn-en" onclick="setLanguage('en')">🇺🇸 EN</button>
         </div>
 
         <header class="animate-on-scroll">
             <h1>Julián Miranda</h1>
-            <div class="subtitle lang-es">Estudiante de Ingeniería Civil Informática (USS) | Backend & AI Engineer</div>
-            <div class="subtitle lang-en">Civil Informatics Engineering Student (USS) | Backend & AI Engineer</div>
-            <p style="margin-top: 15px; font-size: 0.95rem; color: var(--text-muted); font-style: italic;">
-                <span class="lang-es">Construyendo el puente entre la investigación de IA y sistemas escalables en producción</span>
-                <span class="lang-en">Building the bridge between AI research and scalable systems in production</span>
-            </p>
+            <div class="subtitle lang-es">Estudiante de Ingeniería Civil Informática (USS) | Arquitectura & IA Local</div>
+            <div class="subtitle lang-en">Civil Informatics Engineering Student (USS) | Architecture & Local AI</div>
             <div class="contact-links">
-                <a href="mailto:sialoalo2@gmail.com">📧 Email</a>
-                <a href="https://github.com/keefvampire/" target="_blank">💻 GitHub</a>
-                <a href="https://www.linkedin.com/in/keefvampire/" target="_blank">🔗 LinkedIn</a>
+                <a href="mailto:sialoalo2@gmail.com">📩 sialoalo2@gmail.com</a>
+                <a href="https://github.com/keefvampire/" target="_blank">💻 GitHub (keefvampire)</a>
             </div>
         </header>
 
         <section id="about" class="animate-on-scroll">
-            <h2><span class="lang-es">Sobre Mí</span><span class="lang-en">About Me</span></h2>
-            <p class="lang-es">Estudiante enfocado en <strong>Arquitectura de Software</strong> e <strong>Ingeniería de IA</strong>. Me especializo en construir infraestructura robusta para modelos de Machine Learning, optimizar la inferencia local de LLMs y orquestar agentes autónomos. Busco resolver problemas reales llevando sistemas complejos a entornos de producción estables.</p>
-            <p class="lang-en">Student focused on <strong>Software Architecture</strong> and <strong>AI Engineering</strong>. I specialize in building robust infrastructure for ML models, optimizing local LLM inference, and orchestrating autonomous agents. I aim to solve real problems by bringing complex systems into stable production environments.</p>
+            <h2 class="lang-es">Perfil Profesional</h2>
+            <h2 class="lang-en">Professional Profile</h2>
+            <p class="lang-es">
+                Estudiante de Ingeniería Civil Informática enfocado en la arquitectura de sistemas, la construcción de arquitecturas de <strong>redes neuronales</strong> y el despliegue de modelos de Inteligencia Artificial. Me especializo en llevar la teoría a la práctica mediante el uso de LLMs locales y la orquestación de agentes autónomos.
+            </p>
+            <p class="lang-es">
+                Busco aplicar mi conocimiento técnico en infraestructura, Python y redes en un entorno de investigación avanzado como CENIA, optimizando la forma en que los modelos interactúan con el hardware y utilizando metodologías de gestión de conocimiento estructurado (Obsidian/PKM) para documentar experimentaciones.
+            </p>
+
+            <p class="lang-en">
+                Civil Informatics Engineering student focused on systems architecture, building <strong>neural networks</strong>, and deploying Artificial Intelligence models. I specialize in bridging theory and practice through the use of local LLMs and the orchestration of autonomous agents.
+            </p>
+            <p class="lang-en">
+                I aim to apply my technical knowledge in infrastructure, Python, and networking in an advanced research environment, optimizing how models interact with hardware and using structured knowledge management methodologies (Obsidian/PKM) to document experimentation.
+            </p>
         </section>
 
         <section id="projects" class="animate-on-scroll">
-            <h2><span class="lang-es">Proyectos de IA & Infraestructura</span><span class="lang-en">AI & Infrastructure Projects</span></h2>
+            <h2 class="lang-es">Repositorio Destacado (GitHub)</h2>
+            <h2 class="lang-en">Featured Repository (GitHub)</h2>
+
             <div class="card">
                 <div class="card-header">
-                    <div>
-                        <div class="card-title lang-es">Orquestación de Agente de IA Local en Telegram</div>
-                        <div class="card-title lang-en">Local AI Agent Orchestration & Telegram Interface</div>
-                        <div class="author-badge">
-                            <span class="lang-es">Creado por Julián Miranda</span>
-                            <span class="lang-en">Created by Julián Miranda</span>
-                        </div>
-                    </div>
-                    <span class="tag tag-live lang-es">Producción Local</span>
-                    <span class="tag tag-live lang-en">Local Production</span>
+                    <div class="card-title lang-es">Framework de Agentes IA & Interfaz Telegram</div>
+                    <div class="card-title lang-en">AI Agent Framework & Telegram Interface</div>
+                    <span class="tag tag-live lang-es">Deploy Local</span>
+                    <span class="tag tag-live lang-en">Local Deploy</span>
                 </div>
-                <p class="lang-es">Entorno local de inferencia optimizado con <strong>Gamma4</strong> en <strong>Ollama</strong>, procesamiento lógico vía <strong>OpenClaw</strong>, e integración asíncrona mediante la API de <strong>Telegram</strong>.</p>
-                <p class="lang-en">Optimized local inference environment with <strong>Gamma4</strong> on <strong>Ollama</strong>, logical processing via <strong>OpenClaw</strong>, and asynchronous integration using the <strong>Telegram</strong> API.</p>
-                <div class="card-tech">Stack: Python, Ollama, OpenClaw, Telegram API, System Design</div>
+                <p class="lang-es">
+                    Implementación de un entorno de inferencia local. Desplegué el modelo <strong>Gamma4</strong> mediante <strong>Ollama</strong>, integrando el framework <strong>OpenClaw</strong> para dotar al sistema de capacidades de razonamiento. Desarrollé la conexión asíncrona hacia la API de bots de <strong>Telegram</strong>, permitiendo evaluar el rendimiento de la red neuronal bajo solicitudes remotas.
+                </p>
+                <p class="lang-en">
+                    Implementation of a local inference environment. Deployed the <strong>Gamma4</strong> model using <strong>Ollama</strong>, integrating the <strong>OpenClaw</strong> framework to provide the system with reasoning capabilities. Developed an asynchronous connection to the <strong>Telegram</strong> bot API, allowing performance evaluation of the neural network under remote requests.
+                </p>
+                <div class="card-tech">> Stack: Python (OOP), Ollama, OpenClaw, Neural Networks, Telegram API</div>
             </div>
+
             <div class="card">
                 <div class="card-header">
-                    <div>
-                        <div class="card-title lang-es">Servidor Privado "S7"</div>
-                        <div class="card-title lang-en">"S7" Private Server</div>
-                        <div class="author-badge">
-                            <span class="lang-es">Creado por Julián Miranda</span>
-                            <span class="lang-en">Created by Julián Miranda</span>
-                        </div>
-                    </div>
+                    <div class="card-title lang-es">Arquitectura de Servidor Privado "S7"</div>
+                    <div class="card-title lang-en">"S7" Private Server Architecture</div>
                     <span class="tag lang-es">Infraestructura</span>
                     <span class="tag lang-en">Infrastructure</span>
                 </div>
-                <p class="lang-es">Servidor privado enfocado en la administración de entornos, optimización de recursos, seguridad de red y monitoreo continuo.</p>
-                <p class="lang-en">Private server focused on environment administration, resource optimization, network security, and continuous monitoring.</p>
-                <div class="card-tech">Stack: System Administration, Networking, Resource Optimization</div>
-            </div>
-        </section>
-
-        <section id="web-projects" class="animate-on-scroll">
-            <h2><span class="lang-es">Backend & APIs</span><span class="lang-en">Backend & APIs</span></h2>
-            <div class="card">
-                <div class="card-header">
-                    <div>
-                        <div class="card-title lang-es">Task Manager API - Arquitectura RESTful</div>
-                        <div class="card-title lang-en">Task Manager API - RESTful Architecture</div>
-                        <div class="author-badge">
-                            <span class="lang-es">Creado por Julián Miranda</span>
-                            <span class="lang-en">Created by Julián Miranda</span>
-                        </div>
-                    </div>
-                    <span class="tag tag-live lang-es">Live</span>
-                    <span class="tag tag-live lang-en">Live</span>
-                </div>
-                <p class="lang-es">Desarrollo de un sistema escalable utilizando un servidor <strong>Python (Flask)</strong>. Cuenta con una arquitectura desacoplada, base de datos relacional (SQLite), manejo de CORS y un frontend en Vanilla JS preparado para futuras integraciones de IA.</p>
-                <p class="lang-en">Development of a scalable system using a <strong>Python (Flask)</strong> server. Features a decoupled architecture, relational database (SQLite), CORS handling, and a Vanilla JS frontend prepared for future AI integrations.</p>
-                <div class="contact-links" style="margin-top: 15px;">
-                    <a href="https://github.com/keefvampire/Task-manager" target="_blank">💻 GitHub</a>
-                    <a href="https://keefvampire.github.io/Task-manager/" target="_blank">🔗 Live Demo</a>
-                </div>
-                <div class="card-tech">Stack: Python, Flask, SQLite, JavaScript Vanilla, REST APIs</div>
+                <p class="lang-es">
+                    Diseño, configuración y mantenimiento de un servidor privado orientado a la gestión eficiente de recursos y servicios. El proyecto involucró el control de la seguridad a nivel de sistema operativo (BIOS/TPM), optimización de red y la creación completa de la identidad visual.
+                </p>
+                <p class="lang-en">
+                    Design, configuration, and maintenance of a private server aimed at the efficient management of resources and services. The project involved security control at the OS level (BIOS/TPM), network optimization, and the complete creation of its visual identity.
+                </p>
+                <div class="card-tech">> Stack: Windows Server, Hardware Config, Networking</div>
             </div>
         </section>
 
         <section id="experience" class="animate-on-scroll">
-            <h2><span class="lang-es">Experiencia</span><span class="lang-en">Experience</span></h2>
+            <h2 class="lang-es">Experiencia Práctica</h2>
+            <h2 class="lang-en">Practical Experience</h2>
+
             <div class="card">
                 <div class="card-header">
-                    <div>
-                        <div class="card-title lang-es">Supervisión de Sistemas de Monitoreo</div>
-                        <div class="card-title lang-en">Market Monitoring Systems Supervision</div>
-                        <div class="author-badge">
-                            <span class="lang-es">Liderado por Julián Miranda</span>
-                            <span class="lang-en">Led by Julián Miranda</span>
-                        </div>
-                    </div>
-                    <span class="tag lang-es">Profesional</span>
-                    <span class="tag lang-en">Professional</span>
+                    <div class="card-title lang-es">Supervisión de Sistemas de Monitoreo Analítico</div>
+                    <div class="card-title lang-en">Analytical Monitoring Systems Supervision</div>
+                    <span class="tag lang-es">Investigación de Mercado</span>
+                    <span class="tag lang-en">Market Research</span>
                 </div>
-                <p class="lang-es">Supervisión de plataforma analítica y monitoreo estructurado de datos masivos sobre comportamiento del consumidor.</p>
-                <p class="lang-en">Supervision of analytical platform and structured monitoring of massive data regarding consumer behavior.</p>
-                <div class="card-tech lang-es">Habilidades: Análisis de Datos, Monitoreo de Sistemas, Liderazgo</div>
-                <div class="card-tech lang-en">Skills: Data Analysis, System Monitoring, Leadership</div>
+                <p class="lang-es">
+                    Supervisión activa de plataformas de procesamiento de datos orientadas al comportamiento del consumidor. Responsable de asegurar la continuidad operativa de los flujos de información a gran escala, permitiendo la extracción de insights críticos.
+                </p>
+                <p class="lang-en">
+                    Active supervision of data processing platforms focused on consumer behavior. Responsible for ensuring the operational continuity of large-scale data flows, enabling the extraction of critical insights.
+                </p>
+                <div class="card-tech lang-es">> Habilidades: Data Analytics, QA de Sistemas, Monitoreo</div>
+                <div class="card-tech lang-en">> Skills: Data Analytics, Systems QA, Monitoring</div>
             </div>
         </section>
 
         <section id="skills" class="animate-on-scroll">
-            <h2><span class="lang-es">Stack Técnico & Herramientas</span><span class="lang-en">Technical Stack & Tools</span></h2>
+            <h2 class="lang-es">Stack Tecnológico & Herramientas</h2>
+            <h2 class="lang-en">Tech Stack & Tools</h2>
             <div class="skills-grid">
-                <div class="skill-item">Python (Backend & IA)</div>
-                <div class="skill-item">Ollama & Local LLMs</div>
-                <div class="skill-item">Flask & REST APIs</div>
-                <div class="skill-item">Git & Version Control</div>
-                <div class="skill-item">Bases de Datos (SQL)</div>
-                <div class="skill-item lang-es">Análisis de Datos</div>
-                <div class="skill-item lang-en">Data Analysis</div>
-                <div class="skill-item">Docker (Explorando)</div>
-                <div class="skill-item">SysAdmin / Linux</div>
-                <div class="skill-item">JavaScript (ES6)</div>
+                <div class="skill-item">Python (OOP & Lógica)</div>
+                <div class="skill-item lang-es">Redes Neuronales</div>
+                <div class="skill-item lang-en">Neural Networks</div>
+                <div class="skill-item">Ollama & LLMs Locales</div>
+                <div class="skill-item">OpenClaw Framework</div>
+                <div class="skill-item">Obsidian (PKM/Markdown)</div>
+                <div class="skill-item">JavaScript (Vanilla)</div>
+                <div class="skill-item">Arquitectura de Hardware</div>
+                <div class="skill-item">BIOS / TPM / Redes</div>
             </div>
         </section>
 
         <section id="certifications" class="animate-on-scroll">
-            <h2><span class="lang-es">Certificaciones & Insignias</span><span class="lang-en">Certifications & Badges</span></h2>
-            <div style="display: flex; gap: 20px; justify-content: center; flex-wrap: wrap; margin-top: 20px;">
-                <!-- Insignia 1: Cisco Hardware -->
+            <h2 class="lang-es">Certificaciones Oficiales</h2>
+            <h2 class="lang-en">Official Certifications</h2>
+            <div style="display: flex; gap: 20px; flex-wrap: wrap; margin-top: 20px;">
                 <div data-iframe-width="150" data-iframe-height="270" data-share-badge-id="4c189fac-fe83-4892-9280-c0f4a4699a70" data-share-badge-host="https://www.credly.com"></div>
-
-                <!-- Insignia 2: Cisco IT Essentials -->
                 <div data-iframe-width="150" data-iframe-height="270" data-share-badge-id="c102394d-df5f-40dc-af49-3e114019b33b" data-share-badge-host="https://www.credly.com"></div>
             </div>
-
-            <!-- Script oficial de Credly para renderizar los widgets dinámicos -->
-            <script type="text/javascript" async src="https://cdn.credly.com/assets/utilities/embed.js"></script>
         </section>
     </div>
 
-    <footer>
-        <p style="margin-bottom: 15px;">
-            <strong>Julián Miranda</strong> | <span class="lang-es">Backend & AI Engineer</span><span class="lang-en">Backend & AI Engineer</span>
-        </p>
-        <div style="display: flex; gap: 20px; justify-content: center; flex-wrap: wrap; margin-bottom: 15px;">
-            <a href="mailto:sialoalo2@gmail.com" style="color: var(--accent);">📧 Email</a>
-            <a href="https://github.com/keefvampire/" target="_blank" style="color: var(--accent);">💻 GitHub</a>
-            <a href="https://www.linkedin.com/in/keefvampire/" target="_blank" style="color: var(--accent);">🔗 LinkedIn</a>
-        </div>
-        <p style="font-size: 0.85rem; margin-top: 15px;">
-            <span class="lang-es">© 2026 Julián Miranda. Construyendo software con propósito.</span>
-            <span class="lang-en">© 2026 Julián Miranda. Building software with purpose.</span>
-        </p>
-    </footer>
+    <script type="text/javascript" async src="//cdn.credly.com/assets/utilities/embed.js"></script>
 
     <script>
+        // Lógica Bilingüe
         function setLanguage(lang) {
             const body = document.body;
             const btnEs = document.getElementById('btn-es');
             const btnEn = document.getElementById('btn-en');
+
             if (lang === 'en') {
                 body.classList.add('english-mode');
                 btnEn.classList.add('active');
                 btnEs.classList.remove('active');
-                document.title = "Julián Miranda | Engineering & AI Portfolio";
+                document.title = "Julián Miranda | Systems Architecture & AI";
             } else {
                 body.classList.remove('english-mode');
                 btnEs.classList.add('active');
                 btnEn.classList.remove('active');
-                document.title = "Julián Miranda | Portafolio Ingeniería & IA";
+                document.title = "Julián Miranda | Arquitectura de Sistemas e IA";
             }
         }
+
+        // Animación de Scroll
         document.addEventListener("DOMContentLoaded", function() {
-            const observerOptions = { root: null, rootMargin: '0px', threshold: 0.15 };
-            const observer = new IntersectionObserver((entries) => {
+            const observer = new IntersectionObserver((entries, observer) => {
                 entries.forEach(entry => {
                     if (entry.isIntersecting) {
                         entry.target.classList.add('visible');
-                        observer.unobserve(entry.target);
+                        observer.unobserve(entry.target); 
                     }
                 });
-            }, observerOptions);
-            const animatedElements = document.querySelectorAll('.animate-on-scroll');
-            animatedElements.forEach(el => observer.observe(el));
+            }, { root: null, rootMargin: '0px', threshold: 0.15 });
+
+            document.querySelectorAll('.animate-on-scroll').forEach(el => observer.observe(el));
         });
     </script>
 </body>
